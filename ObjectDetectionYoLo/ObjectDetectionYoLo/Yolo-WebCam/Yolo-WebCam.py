@@ -3,11 +3,25 @@ import cv2
 import cvzone
 import math
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #Web Cam
 cap.set(3, 1280)
 cap.set(4, 640)
 
-model = YOLO('Yolo-Weights/yolov8n.pt')
+# cap = cv2.VideoCapture('../Videos/bikes.mp4')
+# cap.set(3, 1280)
+# cap.set(4, 640)
+
+# cap = cv2.VideoCapture('../Videos/cars.mp4')
+# cap.set(3, 1280)
+# cap.set(4, 640)
+
+# cap = cv2.VideoCapture('../Videos/motorbikes.mp4')
+# cap.set(3, 1280)
+# cap.set(4, 640)
+
+# model = YOLO('Yolo-Weights/yolov8n.pt') # Nano
+model = YOLO('Yolo-Weights/yolov8n.pt') # Large
+
 
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
               "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
@@ -40,7 +54,7 @@ while True:
             conf = math.ceil((box.conf[0] * 100))/ 100
 
             cls = int(box.cls[0])
-            cvzone.putTextRect(img, f"{classNames[cls]} {conf}", (max(0, x1), max(35, y1)))
+            cvzone.putTextRect(img, f"{classNames[cls]} {conf}", (max(0, x1), max(35, y1)), scale=1, thickness=1)
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
