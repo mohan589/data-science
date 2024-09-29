@@ -61,3 +61,4 @@ print(df)
 print(df.loc['1/3/2017'])
 print(df.reset_index(inplace=True))
 print(df)
+
