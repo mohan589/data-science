@@ -17,7 +17,3 @@ df.to_csv('data.csv', index=False)
 weather_data = [('New York', 20, 15), ('Los Angeles', 25, 18), ('Chicago', 22, 19)]
 
 df = pd.DataFrame(weather_data, columns=['City', 'Temperature', 'Humidity'])
-
-
-
-

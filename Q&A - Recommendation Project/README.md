@@ -1,0 +1,24 @@
+# data-science
+HR
+
+https://pdf.usaid.gov/pdf_docs/PA00MF4B.pdf
+
+https://www.drnishikantjha.com/booksCollection/hrm-basic-notes.pdf
+
+https://www.ascdegreecollege.ac.in/wp-content/uploads/2020/12/Human-Resource-Management-by-Pravin-Durai.pdf
+
+https://mrcet.com/downloads/MBA/digitalnotes/Human%20Resource%20Management.pdf
+
+https://www.cbsmohali.org/course_material/second_semester/HRM%20Content.pdf
+
+Construction
+
+https://www.uceb.eu/DATA/CivBook/28.%20Building%20Construction%20Handbook.pdf
+
+https://www.vssut.ac.in/lecture_notes/lecture1640072907.pdf
+
+https://www.researchgate.net/profile/Ravindra-Dhivare/publication/311790692_Construction_Material_Subject_Notes/links/585a9b7608aeabd9a58cd110/Construction-Material-Subject-Notes.pdf
+
+https://www.cpwr.com/wp-content/uploads/The_6th_Edition_Construction_eChart_Book.pdf
+
+https://law.resource.org/pub/in/bis/S03/is.sp.62.1997.pdf

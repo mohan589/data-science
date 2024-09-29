@@ -21,3 +21,10 @@ df = pd.read_csv('nyc_weather.csv',skiprows=2,header=None, names=['Year','Month'
 # na_values equal to not available, 'n.a'
 df = pd.read_csv('nyc_weather.csv',skiprows=2,header=None, names=['Year','Month','Day','Temperature','WindSpeedMPH'], na_values=['n.a', 'not available'])
 print(df.head())
+
+# na_values also support dictionary
+df = pd.read_csv('nyc_weather.csv',skiprows=2,header=None, names=['Year','Month','Day','Temperature','WindSpeedMPH'], na_values={'Temperature':'n.a', 'WindSpeedMPH':'not available'})
+print(df.head())
+
+print(df.to_csv('new_weather.csv', index=False))
+
