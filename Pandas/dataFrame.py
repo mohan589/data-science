@@ -50,3 +50,14 @@ print(df[df.temparature>=32]) # print max temp)
 # day when temp is max
 
 print(df[['day', 'temparature']][df.temparature==df['temparature'].max()])
+
+# Set index
+print(df.index)
+print(df.set_index('day'))
+dup = df.set_index('day')
+print(dup)
+print(df.set_index('day', inplace=True))
+print(df)
+print(df.loc['1/3/2017'])
+print(df.reset_index(inplace=True))
+print(df)
