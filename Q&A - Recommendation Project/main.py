@@ -1,10 +1,10 @@
-import json
 import urllib.request
 from io import BytesIO
 from PyPDF2 import PdfReader
 import ssl
 import certifi
 import json
+import random
 
 from transformers import LlamaTokenizer, LlamaForCausalLM
 from sentence_transformers import SentenceTransformer
@@ -19,7 +19,7 @@ extracted_data_collection = []
 processed_data = []
 
 def find_or_create_pinecode_index():
-    if index_name not in pc.list_indexes():
+    if index_name not in pc.list_indexes().names():
       pc.create_index(name=index_name,
                       dimension=384,  # Replace with your model dimensions
                       metric="cosine",  # Replace with your model metric
@@ -32,7 +32,6 @@ def find_or_create_pinecode_index():
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 tokenizer = LlamaTokenizer.from_pretrained("/Users/mpichikala/personal/llama-2/")
 model = LlamaForCausalLM.from_pretrained("/Users/mpichikala/personal/llama-2/")
-
 
 def ask_llama(question, context):
   # Prepare input for Llama
@@ -56,14 +55,15 @@ def extract_text_pypdf2(deal, content, pdf_path):
   return { 'deal': deal, 'content': content, 'text': text }
 
 def store_embedding_in_pinecone(deal_id, doc_id, embedding):
-  pc.Index(index_name).upsert([(f"{deal_id}_{doc_id}", embedding)])
+  print(f"inserting {deal_id} {doc_id} {embedding}")
+  pc.Index(index_name).upsert(vectors=[{ 'id': str(random.randint(1, 10)), 'metadata': {'deal': deal_id, 'content': doc_id,  }, 'values': embedding }])
 
 def get_embeddings(text):
   return embedding_model.encode(text)
 
 def query_pinecone(deal_id, question_embedding):
   # Search for the top 3 most relevant documents in the deal
-  results = pc.Index(index_name).query(queries=[question_embedding], top_k=3, filter={"deal_id": deal_id})
+  results = pc.Index(index_name).query(vector=question_embedding.astype(float).tolist(), include_values=True, include_metadata=True, top_k=10, filter={"deal": {"$eq": deal_id}})
   return results
 
 def process_files():
@@ -104,17 +104,23 @@ def main():
   question_embedding = get_embeddings(question)
 
   # Step 4: Query the vector database to retrieve relevant documents
-  deal_id = '1'
+  deal_id = 1
   top_docs = query_pinecone(deal_id, question_embedding)
 
   # Step 5: Combine top documents into a single context
-  context = " ".join([processed_data[deal_id][doc_id] for doc_id in top_docs])
+  # context = " ".join([doc['matches'][0]['metadata']['content'] for doc in top_docs])
 
   # Step 6: Use Llama to answer the question based on retrieved documents
-  answer = ask_llama(question, context)
+  answer = ask_llama(question, {})
 
-  # Step 7: Output the final answer
-  print(answer)
+  # Step 5: Add the reference URLs to the output
+  references = "\nReferences:\n"
+  for doc in top_docs:
+    references += f"- [Document Link]({doc['url']})\n"
+
+  # Return the full response, including references and the Llama answer
+  print(answer + references)
+  return answer + references
 
 
 __main__ = main()
